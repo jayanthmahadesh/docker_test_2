@@ -19,6 +19,6 @@ jobs:
         run: |
           echo 'FROM nginx:alpine' > Dockerfile
           echo 'COPY . /usr/share/nginx/html' >> Dockerfile
-          docker build -t yourusername/yourimage:latest .
+          docker build -t jayanthmahadesh/docker_test_image:latest .
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker push yourusername/yourimage:latest
