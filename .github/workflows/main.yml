@@ -1,4 +1,4 @@
-name: Build and Push Docker Image
+name: Deploy HTML Page
 
 on:
   push:
@@ -6,20 +6,19 @@ on:
       - main
 
 jobs:
-  build-and-push:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Build Docker Image
-      run: |
-        docker build -t yourusername/yourimage:latest .
-      env:
-        DOCKER_BUILDKIT: 1
-
-    - name: Push Docker Image
-      run: |
-        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker push yourusername/yourimage:latest
+      - name: Build and Push Docker Image
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          echo 'FROM nginx:alpine' > Dockerfile
+          echo 'COPY . /usr/share/nginx/html' >> Dockerfile
+          docker build -t yourusername/yourimage:latest .
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker push yourusername/yourimage:latest
